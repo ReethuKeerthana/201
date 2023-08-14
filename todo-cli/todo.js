@@ -1,3 +1,4 @@
+ /* eslint-disable no-undef */
 const todoList = () => 
   {
   const all = [];
@@ -45,4 +46,5 @@ const todoList = () =>
     toDisplayableList,
   };
 };
+
 module.exports = todoList;
