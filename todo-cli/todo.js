@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 const todoList = () => {
-  all = [];
+  const all = [];
   const add = (todoItem) => {
     all.push(todoItem);
   };
@@ -10,42 +10,37 @@ const todoList = () => {
 
   const overdue = () => {
     const today = new Date().toISOString().split("T")[0];
-    const overdueItems = all.filter((todo) => todo.dueDate < today);
-    return overdueItems;
+    return all.filter((todo) => todo.dueDate < today);
   };
 
   const dueToday = () => {
     const today = new Date().toISOString().split("T")[0];
-    const itemsDueToday = all.filter((todo) => todo.dueDate === today);
-    return itemsDueToday;
+    return all.filter((todo) => todo.dueDate === today);
   };
 
   const dueLater = () => {
     const today = new Date().toISOString().split("T")[0];
-    const itemsDueLater = all.filter((todo) => todo.dueDate > today);
-    return itemsDueLater;
+    return all.filter((todo) => todo.dueDate > today);
   };
 
   const toDisplayableList = (list) => {
-    let output = "";
-    for (let i = 0; i < list.length; i++) {
-      const todo = list[i];
-      const status = todo.completed ? "x" : " ";
-      if (i === list.length - 1) {
-        if (todo.dueDate === today) {
-          output += `[${status}] ${todo.title}`;
-        } else {
-          output += `[${status}] ${todo.title} ${todo.dueDate}`;
-        }
+    // Format the To-Do list here, and return the output string
+    // as per the format given above.
+    let displayList = "";
+    list.forEach((todo) => {
+      const { title, dueDate, completed } = todo;
+
+      if (dueDate < today) {
+        displayList += `[ ] ${title} ${dueDate}\n`;
+      } else if (dueDate === today) {
+        displayList += `[${completed ? "x" : " "}] ${title}\n`;
       } else {
-        if (todo.dueDate === today) {
-          output += `[${status}] ${todo.title}\n`;
-        } else {
-          output += `[${status}] ${todo.title} ${todo.dueDate}\n`;
-        }
+        displayList += `[ ] ${title} ${dueDate}\n`;
       }
-    }
-    return output;
+    });
+    displayList = displayList.trim();
+
+    return displayList;
   };
 
   return {
