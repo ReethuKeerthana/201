@@ -7,28 +7,28 @@ describe("Todo test cases", () => {
     const oneDay = 60 * 60 * 24 * 1000;
     [
       {
-        title: "Complete assignment",
+        title: "Wd201 Node.js",
         completed: false,
         dueDate: new Date(today.getTime() - 1 * oneDay).toLocaleDateString(
-          "en-CA",
+          "en-CA"
         ),
       },
       {
-        title: "Go for shopping",
+        title: "Wd201 l2",
         completed: false,
         dueDate: new Date().toLocaleDateString("en-CA"),
       },
       {
-        title: "Complete project",
+        title: "Wd201 todoList",
         completed: false,
         dueDate: new Date(today.getTime() + 1 * oneDay).toLocaleDateString(
-          "en-CA",
+          "en-CA"
         ),
       },
     ].forEach(add);
   });
   test("Add new todo", () => {
-    let prevlength = all.length;
+    expect(all.length).toEqual(3);
 
     add({
       title: "Take the test",
@@ -36,7 +36,7 @@ describe("Todo test cases", () => {
       dueDate: new Date().toLocaleDateString("en-CA"),
     });
 
-    expect(all.length).toEqual(prevlength + 1);
+    expect(all.length).toEqual(4);
   });
 
   test("Todo mark as complete", () => {
@@ -46,41 +46,14 @@ describe("Todo test cases", () => {
   });
 
   test("Test for overdue", () => {
-    const overdueItems = overdue();
-    const today = new Date().toISOString().split("T")[0];
-    add({
-      title: "Overdue Todo",
-      completed: false,
-      dueDate: new Date(
-        new Date(today).getTime() - 1 * 24 * 60 * 60 * 1000,
-      ).toLocaleDateString("en-CA"),
-    });
-
-    expect(overdue().length).toBe(overdueItems.length + 1);
+    expect(overdue().length).toEqual(1);
   });
 
   test("Test due today", () => {
-    const dueTodayItems = dueToday();
-    const today = new Date().toISOString().split("T")[0];
-    add({
-      title: "Due Today Todo",
-      completed: false,
-      dueDate: today,
-    });
-
-    expect(dueToday().length).toBe(dueTodayItems.length + 1);
+    expect(dueToday().length).toEqual(2);
   });
 
   test("Test for due later", () => {
-    const dueLaterItems = dueLater();
-    add({
-      title: "Due Later Todo",
-      completed: false,
-      dueDate: new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000)
-        .toISOString()
-        .split("T")[0],
-    });
-
-    expect(dueLater().length).toBe(dueLaterItems.length + 1);
+    expect(dueLater().length).toEqual(1);
   });
 });
