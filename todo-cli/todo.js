@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 const todoList = () => {
-  const all = [];
+  all = [];
   const add = (todoItem) => {
     all.push(todoItem);
   };
@@ -9,40 +9,22 @@ const todoList = () => {
   };
 
   const overdue = () => {
-    const today = new Date().toISOString().split("T")[0];
-    return all.filter((todo) => todo.dueDate < today);
+    return all.filter(
+      (todo) => todo.dueDate < new Date().toLocaleDateString("en-CA")
+    );
   };
 
   const dueToday = () => {
-    const today = new Date().toISOString().split("T")[0];
-    return all.filter((todo) => todo.dueDate === today);
+    return all.filter(
+      (todo) => todo.dueDate === new Date().toLocaleDateString("en-CA")
+    );
   };
 
   const dueLater = () => {
-    const today = new Date().toISOString().split("T")[0];
-    return all.filter((todo) => todo.dueDate > today);
+    return all.filter(
+      (todo) => todo.dueDate > new Date().toLocaleDateString("en-CA")
+    );
   };
-
-  const toDisplayableList = (list) => {
-    // Format the To-Do list here, and return the output string
-    // as per the format given above.
-    let displayList = "";
-    list.forEach((todo) => {
-      const { title, dueDate, completed } = todo;
-
-      if (dueDate < today) {
-        displayList += `[ ] ${title} ${dueDate}\n`;
-      } else if (dueDate === today) {
-        displayList += `[${completed ? "x" : " "}] ${title}\n`;
-      } else {
-        displayList += `[ ] ${title} ${dueDate}\n`;
-      }
-    });
-    displayList = displayList.trim();
-
-    return displayList;
-  };
-
   return {
     all,
     add,
@@ -50,8 +32,11 @@ const todoList = () => {
     overdue,
     dueToday,
     dueLater,
-    toDisplayableList,
   };
 };
 
 module.exports = todoList;
+
+// ####################################### #
+// DO NOT CHANGE ANYTHING BELOW THIS LINE. #
+// ####################################### #
