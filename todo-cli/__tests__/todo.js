@@ -1,42 +1,69 @@
-/* eslint-disable no-undef */
-
 const todoList = require("../todo");
 
-const { all, markAsComplete, add, overdueItems, itemsDueToday, itemsDueLater } =
-  todoList();
+const { all, markAsComplete, add, overdue, dueToday, dueLater } = todoList();
+
+const formattedDate = (d) => {
+  return d.toISOString().split("T")[0];
+};
+
+var dateToday = new Date();
+
+const today = formattedDate(dateToday);
+
+const yesterday = formattedDate(
+  new Date(new Date().setDate(dateToday.getDate() - 1)),
+);
+
+const tomorrow = formattedDate(
+  new Date(new Date().setDate(dateToday.getDate() + 1)),
+);
 
 describe("Todolist Test Suite", () => {
   beforeAll(() => {
-    add({
-      title: "Test todo",
-      completed: false,
-      dueDate: new Date().toISOString("en-CA"),
-    });
+    [
+      {
+        title: "Breakfast",
+        completed: false,
+        dueDate: yesterday,
+      },
+      {
+        title: "Lunch",
+        completed: false,
+        dueDate: today,
+      },
+      {
+        title: "Dinner",
+        completed: false,
+        dueDate: tomorrow,
+      },
+    ].forEach(add);
   });
   test("Should add new todo", () => {
-    const todoItemsCount = all.length;
+    const cnt = all.length;
+    expect(all.length).toBe(cnt);
     add({
       title: "Test todo",
       completed: false,
-      dueDate: new Date().toISOString("en-CA"),
+      dueDate: today,
     });
-    expect(all.length).toBe(todoItemsCount + 1);
-    expect(todoItemsCount).not.toBeNull();
+    expect(all.length).toBe(cnt + 1);
   });
 
   test("Should mark a todo as complete", () => {
-    expect(all[0].completed).toBe(false);
-    markAsComplete(0);
-    expect(all[0].completed).toBe(true);
-    expect(all[0].completed).not.toBeNull();
+    expect(all[1].completed).toBe(false);
+    markAsComplete(1);
+    expect(all[1].completed).toBe(true);
   });
-  test("Checks retrieval of Overdue items", () => {
-    expect(overdueItems).not.toBeNull();
+
+  test("overdue test", () => {
+    expect(overdue().length).toBe(1);
   });
-  test("Checks retrieval of Duetoday items", () => {
-    expect(itemsDueToday).not.toBeNull();
+
+  test("dueToday test", () => {
+    expect(dueToday().length).toBe(2);
   });
-  test("Checks retrieval of Duelater items", () => {
-    expect(itemsDueLater).not.toBeNull();
+
+  test("duelater test", () => {
+    expect(dueLater().length).toBe(1);
   });
 });
